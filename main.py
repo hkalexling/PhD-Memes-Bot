@@ -4,6 +4,9 @@ from post import Post
 import secrets
 import twitter
 import requests
+from datetime import datetime
+
+print('\n', datetime.now())
 
 t = twitter.Twitter(auth=twitter.OAuth(*secrets.twitter))
 t_upload = twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth(*secrets.twitter))
