@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 from post import Post
 import secrets
@@ -12,14 +13,13 @@ t = twitter.Twitter(auth=twitter.OAuth(*secrets.twitter))
 t_upload = twitter.Twitter(domain='upload.twitter.com', auth=twitter.OAuth(*secrets.twitter))
 
 def tweet_post(post):
-    print('Posting', post.post_id)
-
     with open('posted_ids.txt', 'r') as f:
         ids = [line.strip() for line in f]
     if post.post_id in ids:
         print('Skipped', post.post_id)
         return
     try:
+        print('Posting', post.post_id)
         imgdata = requests.get(post.img_url).content
         img = t_upload.media.upload(media=imgdata)['media_id_string']
         t.statuses.update(status='From {}\n\nSource: {}'.format(post.source, post.post_url), media_ids=img)
@@ -36,7 +36,9 @@ pages = {
     'MemingPhD': 'High impact PhD memes'
 }
 
-driver = webdriver.Firefox()
+options = Options()
+options.headless = True
+driver = webdriver.Firefox(options=options)
 driver.implicitly_wait(30)
 
 posts = []
