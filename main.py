@@ -38,20 +38,26 @@ pages = {
 
 options = Options()
 options.headless = True
-driver = webdriver.Firefox(options=options)
-driver.implicitly_wait(30)
 
 posts = []
 
-for page in pages.keys():
-    url = 'https://mobile.facebook.com/pg/' + page
-    print('Crawling page', url)
-    driver.get(url)
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    articles = soup.find_all('div', role='article')
-    ps = list(map(lambda a: Post(pages[page], a, driver), articles))
-    ps = filter(lambda p: p.img_url is not None, ps)
-    posts += ps
+try:
+    driver = webdriver.Firefox(options=options)
+    driver.implicitly_wait(30)
+    for page in pages.keys():
+        url = 'https://mobile.facebook.com/pg/' + page
+        print('Crawling page', url)
+        driver.get(url)
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        articles = soup.find_all('div', role='article')
+        ps = list(map(lambda a: Post(pages[page], a, driver), articles))
+        ps = filter(lambda p: p.img_url is not None, ps)
+        posts += ps
 
-for post in posts:
-    tweet_post(post)
+    for post in posts:
+        tweet_post(post)
+except Exception as e:
+    print(e)
+
+print('Quiting')
+driver.quit()
