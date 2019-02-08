@@ -39,6 +39,8 @@ class Post:
             self.driver.get('https://mobile.facebook.com' + href)
             soup = BeautifulSoup(self.driver.page_source, 'html.parser')
             full_btn = soup.find('a', text='View full size')
+            if full_btn is None:
+                full_btn = soup.find('a', text='View Full Size')
             self.img_url = full_btn['href']
             return self.img_url
 
