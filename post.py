@@ -15,9 +15,13 @@ class Post:
 
         self.source = source
         self.html = html
-        self.post_id = self.get_id()
-        self.img_url = self.get_img_url()
-        self.post_url = self.get_post_url()
+
+        try:
+            self.post_id = self.get_id()
+            self.img_url = self.get_img_url()
+            self.post_url = self.get_post_url()
+        except Exception:
+            return None
 
     def get_id(self):
         if self.post_id:

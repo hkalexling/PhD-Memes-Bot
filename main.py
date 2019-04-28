@@ -51,7 +51,7 @@ try:
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         articles = soup.find_all('div', role='article')
         ps = list(map(lambda a: Post(pages[page], a, driver), articles))
-        ps = filter(lambda p: p.img_url is not None, ps)
+        ps = filter(lambda p: p is not None and p.img_url is not None, ps)
         posts += ps
 
     for post in posts:
