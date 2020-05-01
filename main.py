@@ -39,8 +39,7 @@ def tweet_post(post):
 
 pages = {
     'artificialintelligencememes': 'Artificial Intelligence Memes for Artificially Intelligent Teens',
-    'MemingPhD': 'High impact PhD memes',
-    'phdhumour': 'Ph.D. Humour and Facts'
+    'MemingPhD': 'High impact PhD memes'
 }
 
 options = Options()
