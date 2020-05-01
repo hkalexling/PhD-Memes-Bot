@@ -55,7 +55,7 @@ try:
         print('Crawling page', url)
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
-        articles = soup.find_all('div', role='article')
+        articles = soup.find_all('article')
         ps = list(map(lambda a: Post(pages[page], a, driver), articles))
         ps = filter(lambda p: p is not None and p.img_url is not None, ps)
         posts += ps
