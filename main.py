@@ -22,7 +22,13 @@ def tweet_post(post):
         print('Posting', post.post_id)
         imgdata = requests.get(post.img_url).content
         img = t_upload.media.upload(media=imgdata)['media_id_string']
-        t.statuses.update(status='From {}\n\nSource: {}'.format(post.source, post.post_url), media_ids=img)
+
+        status_lst = ['From {}'.format(post.source), 'Source: {}'.format(post.post_url)]
+        if post.text:
+            status_lst = ['{}'.format(post.text)] + status_lst
+        status_text = '\n\n'.join(status_lst)
+
+        t.statuses.update(status=status_text, media_ids=img)
 
         with open('posted_ids.txt', 'a') as f:
             f.write(post.post_id + '\n')

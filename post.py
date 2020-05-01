@@ -8,6 +8,7 @@ class Post:
     post_id = None
     img_url = None
     post_url = None
+    text = None
     driver = None
 
     def __init__(self, source, html, driver):
@@ -20,6 +21,7 @@ class Post:
             self.post_id = self.get_id()
             self.img_url = self.get_img_url()
             self.post_url = self.get_post_url()
+            self.text = self.get_text()
         except Exception:
             return None
 
@@ -55,12 +57,17 @@ class Post:
         self.post_url = 'https://mobile.facebook.com' + href
         return self.post_url
 
+    def get_text(self):
+        self.text = self.html.select_one('div > span > p').get_text()
+        return self.text
+
     def __str__(self):
         j = {
             'source': self.source,
             'id': self.post_id,
             'img_url': self.img_url,
-            'post_url': self.post_url
+            'post_url': self.post_url,
+            'text': self.text
                 }
         return str(j)
 
